@@ -1,10 +1,6 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styles: []
-})
+@Component({ selector: "app-root", templateUrl: "./app.component.html" })
 export class AppComponent {
-  title = 'emusicality-v3';
+  title = "emusicality-v3";
 }

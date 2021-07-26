@@ -2,6 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
+    "analytics": "49752618-efcf-4e50-976e-808f7be4a540",
     "packageManager": "npm"
   },
   "newProjectRoot": "projects",
@@ -28,6 +29,9 @@
         "@schematics/angular:pipe": {
           "skipTests": true
         },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
         "@schematics/angular:service": {
           "skipTests": true
         },
@@ -49,12 +53,18 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/bootswatch/dist/darkly/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {

@@ -1,0 +1,44 @@
+<div class="vw-100 vh-100 d-inline-flex flex-column justify-content-start align-items-center">
+    <div class="flex-fill w-100 d-flex flex-column justify-content-between align-items-center m-2 p-2 border rounded">
+        <div class="d-flex flex-column align-items-center">
+            <b class="title" [innerHtml]="title"></b>
+            <span [innerHtml]="artist"></span>
+            <small class="text-muted" [innerHtml]="genre "></small>
+        </div>
+        <img class="img-thumbnail" [src]="imageUrl">
+        <div class="d-flex flex-column align-items-center" [ngSwitch]="assist">
+            <span>Visual Assistance</span>
+            <div class="btn-group btn-group-sm my-2" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" [(ngModel)]="assist" name="assist" id="assist1" value="1">
+                <label class="btn btn-outline-info" for="assist1">On</label>
+                <input type="radio" class="btn-check" [(ngModel)]="assist" name="assist" id="assist0" value="0">
+                <label class="btn btn-outline-info" for="assist0">Off</label>
+            </div>
+            <i class="bi-arrow-down"></i>
+            <div *ngSwitchCase="1" class="d-flex btn-group">
+                <div *ngFor="let m of markers" class="btn btn-outline-light p-2" [class]="marker(m)"></div>
+            </div>
+            <div *ngSwitchCase="0" class="d-flex btn-group">
+                <div class="btn btn-outline-light p-2" [class]="marker(0)"></div>
+            </div>
+            <i class="bi-arrow-up"></i>
+        </div>
+        <button *ngIf="!playing || busy" type="button" class="btn btn-success" (click)="play(5)">
+            <code [innerHtml]="startBtnText()"></code>
+        </button>
+        <button type="button" class="btn btn-primary bi-bullseye" (click)="tap()"></button>
+        <div class="d-flex flex-column align-items-center" [ngSwitch]="hard">
+            <b *ngSwitchCase="false" class="title">Easy</b>
+            <b *ngSwitchCase="true" class="title">Hard</b>
+            <span>Click when you hear the first beat of each dancers' measure!</span>
+            <small class="text-info text-center">
+                <span *ngSwitchCase="false">Each measure is {{this.beatsPerMeasure}} beats long</span>
+                <span *ngSwitchCase="true">
+                    <span>Each measure is normally {{this.beatsPerMeasure}} beats long,</span>
+                    <br>
+                    <span>but some measures may be shorter</span>
+                </span>
+            </small>
+        </div>
+    </div>
+</div>

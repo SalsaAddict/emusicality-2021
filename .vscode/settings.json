@@ -1,0 +1,16 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "json.schemas": [
+    {
+      "fileMatch": ["/src/assets/songs/songs.json"],
+      "url": "/src/schema/iSongs.json"
+    },
+    {
+      "fileMatch": ["/src/assets/songs/*/breakdown.json"],
+      "url": "/src/schema/iBreakdown.json"
+    }
+  ]
+}

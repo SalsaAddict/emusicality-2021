@@ -1,0 +1,133 @@
+<fieldset class="page" [disabled]="busy">
+    <div class="header bg-dark d-inline-flex justify-content-start align-items-center">
+        <img class="img-thumbnail me-2 flex-shrink-0 flex-grow-0" [src]="imageUrl">
+        <div class="text-truncate">
+            <b [innerHtml]="title"></b>
+            <br>
+            <span [innerHtml]="artist"></span>
+            <br>
+            <small class="text-muted" [innerHtml]="genre"></small>
+        </div>
+        <div
+            class="h-100 d-inline-flex flex-column justify-content-between align-items-center flex-shrink-0 flex-grow-0 ms-auto">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-info" (click)="clock.slower()" [ngSwitch]="clock.slow">
+                    <i *ngSwitchCase="false" class="bi-dash-circle"></i>
+                    <i *ngSwitchCase="true" class="bi-dash-circle-fill"></i>
+                </button>
+                <button type="button" class="btn btn-info" (click)="clock.normal()">
+                    <code>{{clock.bpm | number}}bpm</code>
+                </button>
+                <button type="button" class="btn btn-info" (click)="clock.faster()" [ngSwitch]="clock.fast">
+                    <i *ngSwitchCase="false" class="bi-plus-circle"></i>
+                    <i *ngSwitchCase="true" class="bi-plus-circle-fill"></i>
+                </button>
+            </div>
+            <code>{{clock.seconds | date: "mm:ss"}}</code>
+        </div>
+    </div>
+    <div class="content">
+        <div class="breakdown rounded rounded-3 bg-dark d-flex flex-column justify-content-start align-items-center">
+            <div class="d-flex w-100 mb-2">
+                <div *ngFor="let s of sections" class="progress border pointer"
+                    [style.width]="sectionPercent(s) | percent" [style.border-color]="s.color.solid()"
+                    [class]="animateIf(s === section)" (click)="setBeat(s.startIndex)">
+                    <div class="progress-bar" [style.width]="sectionProgress(s) | percent"
+                        [style.background-image]="s.color.gradient(dimmed(s))"></div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-center">
+                <div *ngFor="let block of blocks" [innerHtml]="block"
+                    class="rounded border w-auto px-2 mx-1 mb-2 small text-center text-dark pointer"
+                    [style.background-image]="legend[block].gradient(dimmed(block))"
+                    [style.border-color]="legend[block].solid()" [class]="animateIf(block === section?.title)"
+                    (pointerdown)="setBlock($event, block)" (pointerup)="setBlock($event)"
+                    (pointerout)="setBlock($event)">
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-around w-100 h-100">
+                <div class="d-flex flex-column align-items-center mb-2" [ngSwitch]="!section?.phrases">
+                    <Small class="text-muted initialism mb-2">Phrasing</Small>
+                    <div *ngSwitchCase="true" class="d-flex justify-content-center align-items-center marker">
+                        <span>&mdash;</span>
+                    </div>
+                    <div *ngSwitchCase="false" class="d-flex">
+                        <div *ngFor="let phrase of section?.phrases; index as i" class="d-flex align-items-center">
+                            <i *ngIf="i" class="bi-dash mx-1 text-muted"></i>
+                            <div *ngFor="let m of phrase; index as pi"
+                                class="d-flex justify-content-center align-items-center rounded rounded-circle border border-2 marker pointer"
+                                [class.ms-1]="pi" [style.border-color]="section?.color?.solid()"
+                                [style.background-image]="colorIf(m === measure, section?.color?.gradient())"
+                                [class]="animateIf(m === measure)" (click)="setBeat(m.startIndex)">
+                                <code *ngIf="m.warning" class="text-dark"
+                                    [style.color]="colorIf(m !== measure, section?.color?.solid())">
+                                    <span>!</span>
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center mb-2" [ngSwitch]="!markers">
+                    <Small class="text-muted initialism mb-2">Beats</Small>
+                    <div *ngSwitchCase="true" class="d-flex justify-content-center align-items-center marker">
+                        <span>&mdash;</span>
+                    </div>
+                    <div *ngSwitchCase="false" class="d-flex">
+                        <div *ngFor="let marker of markers; index as i"
+                            class="d-flex justify-content-center align-items-center rounded rounded-circle border border-2 marker pointer"
+                            [class.ms-1]="i > 0" [style.border-color]="section?.color?.solid()"
+                            [style.background-image]="colorIf(beat === i + 1, section?.color?.gradient())"
+                            [class]="animateIf(beat === i + 1)" (click)="setBeat(measure!.startIndex + i)">
+                            <code *ngIf="beat === i + 1" class="text-dark">{{i + 1 | number}}</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center w-100"
+                    [ngSwitch]="!measure?.structure">
+                    <small class="initialism text-muted mb-2">Rhythm&nbsp;/&nbsp;Structure</small>
+                    <b *ngSwitchCase="true">&mdash;</b>
+                    <b *ngSwitchCase="false" [innerHtml]="measure?.structure" class="rounded px-2 text-dark"
+                        [style.background-image]="section?.color?.gradient()"></b>
+                </div>
+            </div>
+        </div>
+        <div class="tracks rounded rounded-3 bg-dark">
+            <select class="btn-sm btn btn-outline-info w-100 mb-1" [(ngModel)]="group" (change)="setGroup()">
+                <option *ngFor="let group of groups" [value]="group" [innerHtml]="group"></option>
+            </select>
+            <table class="w-100" [style.background-image]="">
+                <tr *ngFor="let track of tracks" [hidden]="track.hidden">
+                    <td class="w-100" [innerHtml]="track.title"></td>
+                    <td>
+                        <div class="btn-group ms-2 mb-1">
+                            <button *ngFor="let btn of track.buttons" [class]="track.button(btn)"
+                                (click)="track.setVolume(btn)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="footer bg-dark d-flex justify-content-center">
+        <div class="btn-group">
+            <a href="/home" class="btn btn-info bi-card-list"></a>
+        </div>
+        <div class="btn-group ms-1" [ngSwitch]="playing">
+            <button type="button" class="btn btn-info" (click)="setBeat(0)">
+                <i class="bi-skip-start-fill"></i>
+            </button>
+            <button type="button" class="btn btn-info" (click)="setBeat(this.previous ?? 0)">
+                <i class="bi-skip-backward-fill"></i>
+            </button>
+            <button type="button" class="btn btn-info" *ngSwitchCase="false" (click)="play()">
+                <i class="bi-play-fill"></i>
+            </button>
+            <button type="button" class="btn btn-info" *ngSwitchCase="true" (click)="pause()">
+                <i class="bi-pause-fill"></i>
+            </button>
+            <button type="button" class="btn btn-info" (click)="setBeat(this.next ?? 1)">
+                <i class="bi-skip-forward-fill"></i>
+            </button>
+        </div>
+    </div>
+</fieldset>

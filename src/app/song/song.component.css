@@ -1,0 +1,108 @@
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.content {
+  display: inline-flex;
+  flex-basis: 100%;
+  overflow: hidden;
+}
+
+.breakdown {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.tracks {
+  min-width: fit-content;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.header,
+.footer,
+.content,
+.tracks,
+.breakdown {
+  padding: 0.5rem;
+}
+
+.marker {
+  overflow: hidden;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+code {
+  color: white;
+  font-weight: bold;
+}
+
+@media (orientation: portrait) {
+  .content {
+    flex-direction: column;
+  }
+  .breakdown {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+    flex-grow: 1;
+    min-height: fit-content !important;
+  }
+}
+
+@media (orientation: landscape) {
+  .content {
+    flex-direction: row-reverse;
+  }
+  .breakdown {
+    margin-left: 0.5rem;
+  }
+}
+
+@media (max-height: 812px) {
+  img.img-thumbnail {
+    max-width: 64px;
+    max-height: 64px;
+  }
+  .marker {
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+  }
+  .marker > code {
+    font-size: 0.75rem;
+  }
+}
+
+@media not all and (max-height: 812px) {
+  img.img-thumbnail {
+    max-width: 8vh;
+    max-height: 8vh;
+  }
+  .header * {
+    font-size: 2vh !important;
+  }
+  .breakdown * {
+    font-size: 3vh !important;
+  }
+  .tracks * {
+    font-size: 2vh !important;
+  }
+  .progress {
+    height: 3vh;
+  }
+  .marker {
+    min-width: 6vh;
+    min-height: 6vh;
+  }
+  .footer .btn {
+    font-size: 3vh;
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+}

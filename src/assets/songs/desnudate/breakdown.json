@@ -1,0 +1,53 @@
+{
+  "trim": 1.85,
+  "beatsPerMeasure": 8,
+  "tracks": [
+    "Vocals",
+    {
+      "title": "Bongos",
+      "groups": ["Percussion", "Rhythm"]
+    },
+    {
+      "title": "Gu&iuml;ra",
+      "groups": ["Percussion", "Rhythm"]
+    },
+    {
+      "title": "Bass Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Rhythm Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Lead Guitar",
+      "groups": "Guitars"
+    },
+    "Synth &amp; Strings"
+  ],
+  "sections": [
+    { "title": "Intro", "phrases": [4] },
+    { "title": "Verse", "structure": "Derecho", "phrases": [4] },
+    { "title": "Pre Chorus", "structure": "Derecho", "phrases": [4] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4, 4] },
+    { "title": "Interlude", "phrases": [2] },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [4]
+    },
+    {
+      "title": "Pre Chorus",
+      "structure": "Derecho",
+      "phrases": [[8, 8, 8, 8, 4]]
+    },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4, 4] },
+    { "title": "Mambo", "structure": "Majao", "phrases": [[8, 8, 8, 8, 4]] },
+    { "title": "Pre Chorus", "structure": "Derecho", "phrases": [4] },
+    {
+      "title": "Chorus/Outro",
+      "structure": "Breakdown",
+      "phrases": [4, ["Acapella", 8, 8, 8]]
+    }
+  ]
+}

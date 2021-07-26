@@ -1,0 +1,16 @@
+* {
+  font-size: 2vh !important;
+}
+
+.title {
+  font-size: 3vh !important;
+}
+
+.img-thumbnail {
+  height: 25vh;
+  width: 25vh;
+}
+
+code {
+  color: white;
+}

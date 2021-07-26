@@ -1,0 +1,58 @@
+{
+  "trim": 1.9,
+  "beatsPerMeasure": 8,
+  "tracks": [
+    "Vocals",
+    { "title": "Percussion", "groups": "Rhythm" },
+    {
+      "title": "Bass Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Rhythm Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Lead Guitar",
+      "groups": "Guitars"
+    },
+    {
+      "title": "Country Guitar",
+      "groups": "Guitars"
+    },
+    "Synth",
+    "Strings &amp; Pads"
+  ],
+  "sections": [
+    {
+      "title": "Intro",
+      "structure": "Derecho",
+      "phrases": [4]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Majao",
+      "phrases": [4]
+    },
+    {
+      "title": "Interlude",
+      "phrases": [4]
+    },
+    { "title": "Chorus", "phrases": [4] },
+    { "title": "Verse", "structure": "Derecho", "phrases": [4] },
+    { "title": "Pre Chorus", "structure": "Derecho", "phrases": [4] },
+    { "title": "Chorus", "structure": "Trap", "phrases": [4] },
+    { "title": "Verse", "phrases": [4] },
+    { "title": "Pre Chorus", "structure": "Derecho", "phrases": [4] },
+    {
+      "title": "Bridge",
+      "structure": "Derecho",
+      "phrases": [4, ["Dembow", 8, 8, 8]]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [4, ["Trap", 8, 8, 8]]
+    }
+  ]
+}

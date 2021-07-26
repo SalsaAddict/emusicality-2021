@@ -1,0 +1,32 @@
+{
+  "beatsPerMeasure": 8,
+  "tracks": [
+    "Vocals",
+    {
+      "title": "Bongo &amp; Gu&iuml;ra",
+      "groups": ["Percussion", "Rhythm"]
+    },
+    {
+      "title": "Percussion",
+      "groups": ["Percussion", "Rhythm"]
+    },
+    {
+      "title": "Kick Drum",
+      "groups": ["Percussion", "Rhythm"]
+    },
+    {
+      "title": "Bass Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Rhythm Guitar",
+      "groups": ["Guitars", "Rhythm"]
+    },
+    {
+      "title": "Lead Guitar",
+      "groups": "Guitars"
+    },
+    "keys &amp; Strings"
+  ],
+  "sections": []
+}

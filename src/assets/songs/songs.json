@@ -1,0 +1,26 @@
+{
+  "esoesamor": {
+    "title": "Eso Es Amor",
+    "artist": "Jiory",
+    "genre": "Bachata",
+    "bpm": 132
+  },
+  "desnudate": {
+    "title": "Desn&uacute;date",
+    "artist": "Dani J",
+    "genre": "Bachata",
+    "bpm": 130
+  },
+  "oldtownroad": {
+    "title": "Old Town Road (Bachata Remix)",
+    "artist": "DJ Dimen5ions &amp; DJ Tiguere",
+    "genre": "Bachata",
+    "bpm": 132
+  },
+  "babalu": {
+    "title": "Babalu",
+    "artist": "J-Style &amp; DJ Tronky (feat Blaze &amp; Stella)",
+    "genre": "Bachata",
+    "bpm": 130
+  }
+}

@@ -1,0 +1,43 @@
+<div class="vw-100 vh-100 d-inline-flex flex-column justify-content-start align-items-center">
+    <div class="w-100 p-2 bg-dark d-inline-flex flex-column justify-content-center align-items-center">
+        <h3 class="m-0"><b>eMusicality</b></h3>
+        <small class="text-muted">by Pierre Henry</small>
+    </div>
+    <div class="w-100 p-2 d-inline-flex flex-column justify-content-center align-items-center">
+        <div class="btn-group btn-group-sm">
+            <input type="radio" class="btn-check" name="category" id="category1">
+            <label class="btn btn-outline-info" for="category1">Songs</label>
+            <input type="radio" class="btn-check" name="category" id="category2">
+            <label class="btn btn-outline-info" for="category2">Games</label>
+            <input type="radio" class="btn-check" name="category" id="category3">
+            <label class="btn btn-outline-info" for="category3">Lessons</label>
+        </div>
+        <div class="list-group">
+            <a *ngFor="let song of iSongs | keyvalue" class="list-group-item list-group-item-action"
+                [href]="songUrl(song.key)">
+                <div class="d-inline-flex justify-content-start align-items-center">
+                    <img class="img-thumbnail me-2" [src]="songImg(song.key)">
+                    <div class="d-inline-flex justify-content-start align-items-center text-truncate">
+                        <div class="d-inline-flex flex-column justify-content-between align-items-start">
+                            <b [innerHtml]="song.value.title"></b>
+                            <span [innerHtml]="song.value.artist"></span>
+                            <small class="text-muted" [innerHtml]="song.value.genre"></small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a *ngFor="let level of levels" class="list-group-item list-group-item-action" [href]="gameUrl(level)">
+                <div class="d-inline-flex justify-content-start align-items-center">
+                    <img class="img-thumbnail me-2" src="/assets/icons/icon-64x64.png">
+                    <div class="d-inline-flex justify-content-start align-items-center text-truncate">
+                        <div class="d-inline-flex flex-column justify-content-between align-items-start">
+                            <b>Find the One!</b>
+                            <span>Level: <span class="text-capitalize">{{level}}</span></span>
+                            <small class="text-muted">Educational Game</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
