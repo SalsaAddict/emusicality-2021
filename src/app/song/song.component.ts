@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { IMetadata } from "src/schema/schema";
@@ -10,9 +11,9 @@ import { IRange, Measure, Section, Song } from "./song";
   styleUrls: ["./song.component.css"],
 })
 export class SongComponent extends Song {
-  constructor(route: ActivatedRoute) {
+  constructor(http: HttpClient, route: ActivatedRoute) {
     let iMetadata: IMetadata = route.snapshot.data.iMetadata;
-    super(iMetadata.songId, iMetadata.iSong, iMetadata.iBreakdown);
+    super(http, iMetadata.songId, iMetadata.iSong, iMetadata.iBreakdown);
     this.group = this.groups[0];
     this.setGroup();
     this.clock.pulse.subscribe((beats) => {

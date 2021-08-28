@@ -98,8 +98,9 @@
             <table class="w-100" [style.background-image]="">
                 <tr *ngFor="let track of tracks" [hidden]="track.hidden">
                     <td class="w-100" [innerHtml]="track.title"></td>
-                    <td>
-                        <div class="btn-group ms-2 mb-1">
+                    <td [ngSwitch]="track.downloadProgress < 1" class="text-center">
+                        <span *ngSwitchCase="true">{{track.downloadProgress | percent}}</span>
+                        <div *ngSwitchCase="false" class="btn-group ms-2 mb-1">
                             <button *ngFor="let btn of track.buttons" [class]="track.button(btn)"
                                 (click)="track.setVolume(btn)"></button>
                         </div>

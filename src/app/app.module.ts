@@ -10,10 +10,15 @@ import { SongComponent } from "./song/song.component";
 import { MDASH } from "src/schema/schema";
 import { FormsModule } from "@angular/forms";
 import { FindTheOneComponent } from "./find-the-one/find-the-one.component";
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from "./home/home.component";
 
 @NgModule({
-  declarations: [AppComponent, SongComponent, FindTheOneComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    SongComponent,
+    FindTheOneComponent,
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -65,3 +70,10 @@ export function shuffle<T>(array: T[]) {
   }
   return array;
 }
+
+const appHeight = () => {
+  const doc = document.documentElement;
+  doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+};
+window.addEventListener("resize", appHeight);
+appHeight();

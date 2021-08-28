@@ -1,6 +1,6 @@
 .page {
   width: 100vw;
-  height: 100vh;
+  height: var(--app-height);
   display: inline-flex;
   flex-direction: column;
 }

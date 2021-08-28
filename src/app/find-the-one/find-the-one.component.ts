@@ -1,4 +1,4 @@
-import { i18nMetaToJSDoc } from "@angular/compiler/src/render3/view/i18n/meta";
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ALL, IMetadata } from "src/schema/schema";
@@ -10,8 +10,9 @@ import { Song } from "../song/song";
   styleUrls: ["./find-the-one.component.css"],
 })
 export class FindTheOneComponent extends Song implements OnInit {
-  constructor(route: ActivatedRoute) {
+  constructor(http: HttpClient, route: ActivatedRoute) {
     super(
+      http,
       route.snapshot.data.iGameInfo.songId,
       route.snapshot.data.iGameInfo.iSong,
       route.snapshot.data.iGameInfo.iBreakdown

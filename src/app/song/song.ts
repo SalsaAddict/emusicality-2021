@@ -1,3 +1,4 @@
+import { HttpClient, HttpEventType } from "@angular/common/http";
 import { EventEmitter } from "@angular/core";
 import {
   ALL,
@@ -48,6 +49,7 @@ export class Queue {
 
 export class Song implements IRange {
   constructor(
+    private readonly http: HttpClient,
     private readonly songId: string,
     iSong: ISong,
     iBreakdown: IBreakdown
@@ -65,6 +67,7 @@ export class Song implements IRange {
     this.tracks = [];
     iBreakdown.tracks.forEach((iTrack, trackId) => {
       let track = new Track(
+        this.http,
         this.queue,
         this.context,
         this.master,
@@ -268,6 +271,7 @@ export const VOLUMES: IVolumes = { mute: 0, down: 0.8, up: 1.2 };
 
 export class Track {
   constructor(
+    private readonly http: HttpClient,
     private readonly queue: Queue,
     private readonly context: AudioContext,
     master: GainNode,
@@ -275,7 +279,7 @@ export class Track {
     songId: string,
     trackId: number,
     iTrack: ITrackType,
-    onEnded: { (): Promise<void> }
+    private readonly onEnded: { (): Promise<void> }
   ) {
     this.trackId = trackId;
     this.title = typeof iTrack === "string" ? iTrack : iTrack.title;
@@ -285,42 +289,71 @@ export class Track {
     else this.groups = [];
     this.groups.push(ALL);
     this.groups.sort();
-    this.file = document.createElement("source");
-    this.file.src = `/assets/songs/${songId}/track${trackId}.trk`;
-    this.file.type = "audio/mpeg";
-    this.element = document.createElement("audio");
-    this.element.appendChild(this.file);
-    this.element.load();
+
+    this.queue.wait(async () => {
+      return new Promise<void>((resolve) => {
+        http
+          .get(`/assets/songs/${songId}/track${trackId}.trk`, {
+            responseType: "arraybuffer",
+            reportProgress: true,
+            observe: "events",
+          })
+          .subscribe((event) => {
+            if (event.type === HttpEventType.DownloadProgress) {
+              this.downloadProgress = event.loaded / event.total!;
+            } else if (event.type === HttpEventType.Response) {
+              this.context.decodeAudioData(event.body!).then((buffer) => {
+                this.buffer = buffer;
+                resolve();
+              });
+            }
+          });
+      });
+    });
+
+    //this.file = document.createElement("source");
+    //this.file.src = `/assets/songs/${songId}/track${trackId}.trk`;
+    //this.file.type = "audio/mpeg";
+    //this.element = document.createElement("audio");
+    //this.element.appendChild(this.file);
+    //this.element.src = `/assets/songs/${songId}/track${trackId}.trk`;
+    //this.element.preload = "auto";
+    //this.element.load();
     this.master = context.createGain();
     this.master.connect(master);
     this.fader = context.createGain();
     this.fader.connect(this.master);
-    this.source = context.createMediaElementSource(this.element);
-    this.source.connect(this.fader);
+    //this.source = context.createMediaElementSource(this.element);
+    //this.source.connect(this.fader);
     this.setVolume("down");
     this.clock.playbackRateChange.subscribe((value) => {
-      this.element.playbackRate = value;
+      this.source!.playbackRate.value = value;
     });
+    /*
     this.element.onended = async () => {
       await this.queue.wait(onEnded);
     };
+    */
   }
+  public downloadProgress: number = 0;
   public readonly trackId: number;
   public readonly title: string;
   public readonly groups: string[];
-  private readonly file: HTMLSourceElement;
-  private readonly element: HTMLAudioElement;
+
+  private buffer?: AudioBuffer;
+  private source?: AudioBufferSourceNode;
+
+  //private readonly file: HTMLSourceElement;
+  //private readonly element: HTMLAudioElement;
   private readonly master: GainNode;
   private readonly fader: GainNode;
-  private readonly source: MediaElementAudioSourceNode;
+  //private readonly source: MediaElementAudioSourceNode;
   private volume!: IVolume;
   private active!: boolean;
   public get hidden() {
     return !this.active;
   }
-  public get ended() {
-    return this.element.ended;
-  }
+  public ended: boolean = true;
   public get buttons() {
     return Object.keys(VOLUMES) as IVolume[];
   }
@@ -344,34 +377,25 @@ export class Track {
     });
   }
   public seek(seconds: number) {
-    return this.queue.wait(() => {
-      return new Promise<void>((resolve) => {
-        this.element.load();
-        this.element.currentTime = seconds;
-        this.element.playbackRate = this.clock.playbackRate;
-        if (this.element.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA)
-          resolve();
-        else
-          this.element.oncanplaythrough = function () {
-            resolve();
-          };
-      });
-    });
+    this.source = this.context.createBufferSource();
+    this.source.buffer = this.buffer!;
+    this.source.playbackRate.value = this.clock.playbackRate;
+    this.source.connect(this.fader);
+    return Promise.resolve();
   }
   public play() {
-    return this.queue.wait(() => this.element.play());
+    this.source?.start(0, this.clock.currentTime);
+    this.ended = false;
+    this.source!.onended = async () => {
+      this.ended = true;
+      await this.queue.wait(this.onEnded);
+    };
+    return Promise.resolve();
   }
   public pause() {
-    return this.queue.wait(() => {
-      return new Promise<void>((resolve) => {
-        this.element.pause();
-        if (this.element.paused) resolve();
-        else
-          this.element.onpause = function () {
-            resolve();
-          };
-      });
-    });
+    this.source!.onended = null;
+    this.source?.stop();
+    return Promise.resolve();
   }
 }
 

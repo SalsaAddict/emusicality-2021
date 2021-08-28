@@ -4,14 +4,14 @@
         <small class="text-muted">by Pierre Henry</small>
     </div>
     <div class="w-100 p-2 d-inline-flex flex-column justify-content-center align-items-center">
-        <div class="btn-group btn-group-sm">
+        <!--<div class="btn-group btn-group-sm">
             <input type="radio" class="btn-check" name="category" id="category1">
             <label class="btn btn-outline-info" for="category1">Songs</label>
             <input type="radio" class="btn-check" name="category" id="category2">
             <label class="btn btn-outline-info" for="category2">Games</label>
             <input type="radio" class="btn-check" name="category" id="category3">
             <label class="btn btn-outline-info" for="category3">Lessons</label>
-        </div>
+        </div>-->
         <div class="list-group">
             <a *ngFor="let song of iSongs | keyvalue" class="list-group-item list-group-item-action"
                 [href]="songUrl(song.key)">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </a>
-            <a *ngFor="let level of levels" class="list-group-item list-group-item-action" [href]="gameUrl(level)">
+            <!--<a *ngFor="let level of levels" class="list-group-item list-group-item-action" [href]="gameUrl(level)">
                 <div class="d-inline-flex justify-content-start align-items-center">
                     <img class="img-thumbnail me-2" src="/assets/icons/icon-64x64.png">
                     <div class="d-inline-flex justify-content-start align-items-center text-truncate">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-            </a>
+            </a>-->
         </div>
     </div>
 </div>
