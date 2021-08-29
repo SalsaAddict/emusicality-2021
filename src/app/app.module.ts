@@ -73,7 +73,14 @@ export function shuffle<T>(array: T[]) {
 
 const appHeight = () => {
   const doc = document.documentElement;
-  doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+  doc.style.setProperty(
+    "--app-height",
+    `${doc.clientHeight || window.innerHeight}px`
+  );
 };
-window.addEventListener("resize", appHeight);
+var resizeHandle: number;
+window.addEventListener("resize", () => {
+  window.clearTimeout(resizeHandle);
+  window.setTimeout(appHeight, 50);
+});
 appHeight();
